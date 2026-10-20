@@ -27,7 +27,7 @@
   const SECTIONS = {
     promo: {
       accent: "var(--card-promo)", ink: "var(--card-promo-ink)", titleKey: "promo.title",
-      pdf: { tr: null, en: null }, // e.g. "menus/promo-tr.pdf"
+      pdf: { tr: menus/foods-tr.pdf, en: menus/foods-tr.pdf }, // e.g. "menus/promo-tr.pdf"
       items: {
         tr: [["Öğle Menüsü", "Çorba, ana yemek, içecek", "290 ₺"], ["İkinci içecek bizden", "Hafta içi 15:00–18:00", "—"]],
         en: [["Lunch set", "Soup, main course, drink", "290 ₺"], ["Second drink free", "Weekdays 3–6 pm", "—"]],
@@ -35,7 +35,7 @@
     },
     food: {
       accent: "var(--card-food)", ink: "var(--card-food-ink)", titleKey: "food.title",
-      pdf: { tr: menus/foods-tr.pdf, en: null }, // e.g. "menus/food-tr.pdf"
+      pdf: { tr: menus/foods-tr.pdf, en: menus/foods-tr.pdf }, // e.g. "menus/food-tr.pdf"
       items: {
         tr: [["Mercimek Çorbası", "Limon ve tereyağı ile", "120 ₺"], ["Adana Kebap", "Közlenmiş biber, lavaş", "420 ₺"], ["Mantı", "Yoğurt ve nane yağı", "310 ₺"], ["Künefe", "Antep fıstığı ile", "230 ₺"]],
         en: [["Lentil Soup", "With lemon and butter", "120 ₺"], ["Adana Kebab", "Roasted pepper, flatbread", "420 ₺"], ["Manti", "Yogurt and mint oil", "310 ₺"], ["Künefe", "With pistachio", "230 ₺"]],
@@ -43,7 +43,7 @@
     },
     drink: {
       accent: "var(--card-drink)", ink: "var(--card-drink-ink)", titleKey: "drink.title",
-      pdf: { tr: menus/drinks-tr.pdf, en: null }, // e.g. "menus/drinks-tr.pdf"
+      pdf: { tr: menus/drinks-tr.pdf, en: menus/foods-tr.pdf }, // e.g. "menus/drinks-tr.pdf"
       items: {
         tr: [["Türk Kahvesi", "Lokum ile", "90 ₺"], ["Çay", "İnce belli bardak", "35 ₺"], ["Ayran", "Ev yapımı", "50 ₺"], ["Taze Limonata", "Nane ile", "110 ₺"]],
         en: [["Turkish Coffee", "With Turkish delight", "90 ₺"], ["Tea", "Tulip glass", "35 ₺"], ["Ayran", "House-made yogurt drink", "50 ₺"], ["Fresh Lemonade", "With mint", "110 ₺"]],
