@@ -1,13 +1,13 @@
 /* Offline support: everything is cached on the first online visit,
    then the app runs with no internet. Bump VERSION to force a full refresh. */
-const VERSION = "menu-v2";
+const VERSION = "menu-v3";
 
 const CORE = [
   "./", "index.html", "styles.css", "script.js", "config.js",
   "manifest.webmanifest", "logo.png",
   "icons/icon-192.png", "icons/icon-512.png",
   "vendor/pdfjs/pdf.min.mjs", "vendor/pdfjs/pdf.worker.min.mjs",
-  "fonts/fraunces-latin-700-normal.woff2", "fonts/fraunces-latin-ext-700-normal.woff2",
+  "fonts/oswald-latin-500-normal.woff2", "fonts/oswald-latin-ext-500-normal.woff2",
   "fonts/outfit-latin-400-normal.woff2", "fonts/outfit-latin-ext-400-normal.woff2",
   "fonts/outfit-latin-600-normal.woff2", "fonts/outfit-latin-ext-600-normal.woff2",
 ];

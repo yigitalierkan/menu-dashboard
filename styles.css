@@ -3,32 +3,35 @@
 @font-face { font-family: "Outfit"; font-weight: 400; font-display: swap; src: url("fonts/outfit-latin-ext-400-normal.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: "Outfit"; font-weight: 600; font-display: swap; src: url("fonts/outfit-latin-600-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: "Outfit"; font-weight: 600; font-display: swap; src: url("fonts/outfit-latin-ext-600-normal.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
-@font-face { font-family: "Fraunces"; font-weight: 700; font-display: swap; src: url("fonts/fraunces-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: "Fraunces"; font-weight: 700; font-display: swap; src: url("fonts/fraunces-latin-ext-700-normal.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Oswald"; font-weight: 500; font-display: swap; src: url("fonts/oswald-latin-500-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Oswald"; font-weight: 500; font-display: swap; src: url("fonts/oswald-latin-ext-500-normal.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 
-/* ---------- THEME (edit these to re-colour the whole app) ---------- */
+/* ---------- THEME (edit these to re-colour the whole app) ----------
+   Palette taken from the Güverte menu cover:
+   charcoal #333333 and sand #d4c0a3.                                     */
 :root {
-  --bg: #e9eff2;
-  --surface: #ffffff;
-  --ink: #12263a;
-  --ink-soft: #5b6b7a;
-  --primary: #12263a;
-  --primary-contrast: #ffffff;
+  --bg: #333333;
+  --surface: #474441;          /* toggle track, raised dark surfaces */
+  --ink: #d4c0a3;              /* text on the dark background */
+  --ink-soft: #b1a18a;
+  --primary: #d4c0a3;          /* toggle thumb */
+  --primary-contrast: #333333;
+  --danger: #e6a39a;
 
-  --card-promo: #f2a91c;
-  --card-promo-ink: #2a1c00;
-  --card-food: #b3263e;
-  --card-food-ink: #ffffff;
-  --card-drink: #0f8f8a;
-  --card-drink-ink: #ffffff;
+  --card-promo: #d4c0a3;       /* sand */
+  --card-promo-ink: #333333;
+  --card-food: #474441;        /* warm charcoal */
+  --card-food-ink: #d4c0a3;
+  --card-drink: #b1a18a;       /* deeper sand */
+  --card-drink-ink: #333333;
 
   /* Sizes are based on the SHORT side of the screen (vmin), so the layout
-     scales the same way on a 8.7" Galaxy Tab A11 or any other landscape tablet. */
+     scales the same way on a Galaxy Tab A11 or any other landscape tablet. */
   --radius: 4.6vmin;
   --gap: 3.2vmin;
   --pad: 3.6vmin;
   --touch: max(56px, 9vmin);       /* minimum comfortable touch target */
-  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-display: "Oswald", "Arial Narrow", system-ui, sans-serif;
   --font-ui: "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
@@ -69,9 +72,9 @@ img { -webkit-user-drag: none; }
   justify-content: space-between;
   height: max(var(--touch), 11vmin);
 }
-.logo { display: flex; align-items: center; height: 100%; color: var(--primary); }
+.logo { display: flex; align-items: center; height: 100%; color: var(--ink); }
 .logo img { height: 100%; width: auto; max-width: 40vw; object-fit: contain; }
-.logo-name { font-family: var(--font-display); font-weight: 700; font-size: 4.4vmin; }
+.logo-name { font-family: var(--font-display); font-weight: 500; font-size: 4.4vmin; letter-spacing: .12em; text-transform: uppercase; }
 
 /* Language toggle */
 .lang {
@@ -83,7 +86,7 @@ img { -webkit-user-drag: none; }
   width: calc(var(--h) * 2.6);
   background: var(--surface);
   border-radius: 999px;
-  box-shadow: inset 0 0 0 2px rgba(18,38,58,.12);
+  box-shadow: inset 0 0 0 2px rgba(212,192,163,.35);
 }
 .lang-btn {
   position: relative;
@@ -126,12 +129,12 @@ img { -webkit-user-drag: none; }
   border-radius: var(--radius);
   text-align: left;
   overflow: hidden;
-  box-shadow: 0 1.4vmin 0 rgba(18,38,58,.16);
+  box-shadow: 0 1.4vmin 0 rgba(0,0,0,.35);
   transition: transform .18s cubic-bezier(.3,.9,.3,1), box-shadow .18s;
 }
 .card:active {
   transform: translateY(1.2vmin) scale(.985);
-  box-shadow: 0 .3vmin 0 rgba(18,38,58,.16);
+  box-shadow: 0 .3vmin 0 rgba(0,0,0,.35);
 }
 .card--promo { background: var(--card-promo); color: var(--card-promo-ink); }
 .card--food  { background: var(--card-food);  color: var(--card-food-ink); }
@@ -141,9 +144,11 @@ img { -webkit-user-drag: none; }
 .card-text { display: flex; flex-direction: column; gap: 1.8vmin; min-width: 0; max-width: 100%; }
 .card-title {
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: min(6.2vmin, 4vw);
-  line-height: 1.08;
+  font-weight: 500;
+  font-size: min(6.4vmin, 4.1vw);
+  line-height: 1.05;
+  letter-spacing: .05em;
+  text-transform: uppercase;
   overflow-wrap: normal;
   hyphens: none;
 }
@@ -191,8 +196,8 @@ img { -webkit-user-drag: none; }
   min-height: var(--touch);
   padding: 0 3.4vmin 0 2.2vmin;
   border-radius: 999px;
-  background: var(--primary-contrast);
-  color: var(--primary);
+  background: var(--accent-ink, var(--primary-contrast));
+  color: var(--accent, var(--primary));
   font-weight: 600;
   font-size: max(18px, 3.2vmin);
   transition: transform .15s;
@@ -201,6 +206,9 @@ img { -webkit-user-drag: none; }
 .back svg { width: 4.6vmin; min-width: 26px; height: auto; }
 .viewer-title {
   font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
   font-size: min(6.4vmin, 4vw);
   text-align: center;
   flex: 1 1 auto;
@@ -209,12 +217,12 @@ img { -webkit-user-drag: none; }
   text-overflow: ellipsis;
 }
 
-.viewer-body { position: relative; flex: 1 1 0; min-height: 0; background: #d9e0e5; }
+.viewer-body { position: relative; flex: 1 1 0; min-height: 0; background: var(--bg); }
 
 /* PDF display */
 .pdf { position: absolute; inset: 0; }
 .pdf-stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
-.pdf-stage canvas { display: block; background: #fff; box-shadow: 0 4px 24px rgba(18,38,58,.25); max-width: none; }
+.pdf-stage canvas { display: block; background: #fff; max-width: none; }
 /* leave a strip under the page for the page counter so it never covers the menu */
 .pdf.has-nav .pdf-stage { bottom: max(52px, 8vmin); }
 .pdf[data-mode="width"] .pdf-stage {
@@ -232,9 +240,9 @@ img { -webkit-user-drag: none; }
   width: var(--touch); height: var(--touch);
   display: grid; place-items: center;
   border-radius: 50%;
-  background: rgba(18,38,58,.82);
-  color: #fff;
-  box-shadow: 0 4px 14px rgba(0,0,0,.3);
+  background: rgba(212,192,163,.94);
+  color: #333;
+  box-shadow: 0 4px 14px rgba(0,0,0,.4);
   transition: transform .15s, opacity .2s;
 }
 .pdf-nav svg { width: 50%; height: 50%; }
@@ -246,16 +254,16 @@ img { -webkit-user-drag: none; }
   position: absolute; bottom: calc((max(52px, 8vmin) - 38px) / 2); left: 50%; transform: translateX(-50%);
   padding: 6px 18px;
   border-radius: 999px;
-  background: rgba(18,38,58,.82); color: #fff;
+  background: rgba(212,192,163,.94); color: #333;
   font-weight: 600; font-size: max(16px, 2.8vmin);
 }
 
 .pdf-status {
   height: 100%;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
-  font-size: max(20px, 3.6vmin); color: var(--ink-soft);
+  font-size: max(20px, 3.6vmin); color: var(--ink);
 }
-.pdf-status.is-error { color: var(--card-food); font-weight: 600; }
+.pdf-status.is-error { color: var(--danger); font-weight: 600; }
 .pdf-status small { font-size: max(15px, 2.4vmin); color: var(--ink-soft); font-weight: 400; word-break: break-all; padding: 0 20px; text-align: center; }
 
 /* Portrait safety net */
