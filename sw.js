@@ -1,6 +1,6 @@
 /* Offline support: everything is cached on the first online visit,
    then the app runs with no internet. Bump VERSION to force a full refresh. */
-const VERSION = "menu-v4";
+const VERSION = "menu-v5";
 
 const CORE = [
   "./", "index.html", "styles.css", "script.js", "config.js",
@@ -34,7 +34,12 @@ self.addEventListener("message", (e) => {
   if (e.data && e.data.type === "CACHE_URLS") e.waitUntil(cacheAll(e.data.urls));
 });
 
-// Cache first (instant, works offline), refresh in the background when online.
+// App files (html, css, js, config): try the network first so edits show up right away,
+// and fall back to the saved copy when offline or the connection is slow (2.5 s).
+// PDFs and other big files: saved copy first (instant), refreshed in the background.
+const FRESH_MS = 2500;
+const isPdf = (url) => /\.pdf(\?|$)/i.test(url);
+
 self.addEventListener("fetch", (e) => {
   const req = e.request;
   if (req.method !== "GET" || new URL(req.url).origin !== location.origin) return;
@@ -42,13 +47,20 @@ self.addEventListener("fetch", (e) => {
   e.respondWith((async () => {
     const cache = await caches.open(VERSION);
     const cached = await cache.match(req, { ignoreSearch: true });
-    const refresh = fetch(req).then((res) => {
+    const network = fetch(req, { cache: "no-cache" }).then((res) => {
       if (res && res.ok) cache.put(req, res.clone());
       return res;
     }).catch(() => null);
 
-    if (cached) { e.waitUntil(refresh); return cached; }
-    const res = await refresh;
+    if (cached && isPdf(req.url)) { e.waitUntil(network); return cached; }
+
+    if (cached) {
+      const timeout = new Promise((r) => setTimeout(() => r(null), FRESH_MS));
+      const res = await Promise.race([network, timeout]);
+      if (!res) e.waitUntil(network);
+      return res || cached;
+    }
+    const res = await network;
     if (res) return res;
     if (req.mode === "navigate") return (await cache.match("index.html")) || Response.error();
     return Response.error();
