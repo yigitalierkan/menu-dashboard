@@ -53,6 +53,8 @@
   let pageNo = 1;             // current page (fit = "page")
   let renderToken = 0;        // cancels stale renders
   let pdfjsPromise = null;
+  let pageCache = new Map();  // page number -> Promise<canvas>
+  let cacheKey = "";          // screen size the cached pages were drawn for
 
   /* ---------- 3. LANGUAGE ---------- */
   function applyLang(next) {
@@ -119,6 +121,7 @@
   }
 
   function destroyDoc() {
+    pageCache.clear(); cacheKey = "";
     if (pdfDoc) { try { pdfDoc.destroy(); } catch (_) {} pdfDoc = null; }
   }
 
@@ -169,6 +172,30 @@
     await page.render({ canvasContext: canvas.getContext("2d"), viewport: vp }).promise;
   }
 
+  /* Pages are drawn off-screen and kept in a small cache, so turning a page is instant
+     when the neighbouring pages have already been prepared. */
+  function getPageCanvas(doc, n, boxW, boxH) {
+    if (!pageCache.has(n)) {
+      const p = doc.getPage(n).then(async (page) => {
+        const canvas = document.createElement("canvas");
+        await drawPage(page, canvas, boxW, boxH, "page");
+        return canvas;
+      });
+      p.catch(() => pageCache.delete(n));
+      pageCache.set(n, p);
+    }
+    return pageCache.get(n);
+  }
+
+  async function prefetchAround(doc, n, boxW, boxH, token) {
+    for (const k of [n + 1, n - 1, n + 2]) {
+      if (k < 1 || k > doc.numPages) continue;
+      if (token !== renderToken || doc !== pdfDoc) return;
+      try { await getPageCanvas(doc, k, boxW, boxH); } catch (_) { return; }
+    }
+    for (const k of [...pageCache.keys()]) if (Math.abs(k - n) > 3) pageCache.delete(k);   // keep memory small
+  }
+
   async function renderCurrent() {
     if (!pdfDoc) return;
     const token = ++renderToken;
@@ -181,16 +208,22 @@
 
     try {
       if (mode === "page") {
-        const page = await doc.getPage(pageNo);
-        if (token !== renderToken) return;
-        let canvas = stage.querySelector("canvas");
-        if (!canvas) { canvas = document.createElement("canvas"); stage.appendChild(canvas); }
-        await drawPage(page, canvas, boxW, boxH, "page");
+        const wanted = pageNo;
+        const key = `${boxW}x${boxH}`;
+        if (key !== cacheKey) { pageCache.clear(); cacheKey = key; }
         const count = $("#pdfCount");
-        if (count) count.textContent = `${pageNo} / ${doc.numPages}`;
         const prev = $(".pdf-prev"), next = $(".pdf-next");
-        if (prev) prev.disabled = pageNo <= 1;
-        if (next) next.disabled = pageNo >= doc.numPages;
+        if (count) count.textContent = `${wanted} / ${doc.numPages}`;
+        if (prev) prev.disabled = wanted <= 1;
+        if (next) next.disabled = wanted >= doc.numPages;
+
+        // Keep showing the previous page (never a blank one) until the new one is ready.
+        pdfEl.classList.add("is-loading");
+        const canvas = await getPageCanvas(doc, wanted, boxW, boxH);
+        if (token !== renderToken || doc !== pdfDoc) return;
+        stage.replaceChildren(canvas);
+        pdfEl.classList.remove("is-loading");
+        prefetchAround(doc, wanted, boxW, boxH, token);
       } else {
         stage.innerHTML = "";
         for (let i = 1; i <= doc.numPages; i++) {

@@ -279,3 +279,7 @@ img { -webkit-user-drag: none; }
 
 /* One language only: hide the TR/EN switch (it keeps its space so titles stay centred) */
 .single-lang .lang { visibility: hidden; pointer-events: none; }
+
+/* While the next page is being prepared, the current page stays visible, slightly dimmed
+   (only if it takes longer than a blink, so quick page turns don't flicker). */
+.pdf.is-loading .pdf-stage canvas { opacity: .55; transition: opacity .2s .15s; }
