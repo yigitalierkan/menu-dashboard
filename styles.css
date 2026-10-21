@@ -1,37 +1,54 @@
+/* ---------- FONTS (bundled, work offline) ---------- */
+@font-face { font-family: "Outfit"; font-weight: 400; font-display: swap; src: url("fonts/outfit-latin-400-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Outfit"; font-weight: 400; font-display: swap; src: url("fonts/outfit-latin-ext-400-normal.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Outfit"; font-weight: 600; font-display: swap; src: url("fonts/outfit-latin-600-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Outfit"; font-weight: 600; font-display: swap; src: url("fonts/outfit-latin-ext-600-normal.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Fraunces"; font-weight: 700; font-display: swap; src: url("fonts/fraunces-latin-700-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Fraunces"; font-weight: 700; font-display: swap; src: url("fonts/fraunces-latin-ext-700-normal.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
 /* ---------- THEME (edit these to re-colour the whole app) ---------- */
 :root {
   --bg: #e9eff2;
   --surface: #ffffff;
   --ink: #12263a;
   --ink-soft: #5b6b7a;
-  --primary: #12263a;          /* header, toggle, back button */
+  --primary: #12263a;
   --primary-contrast: #ffffff;
 
-  --card-promo: #f2a91c;       /* saffron */
+  --card-promo: #f2a91c;
   --card-promo-ink: #2a1c00;
-  --card-food: #b3263e;        /* pomegranate */
+  --card-food: #b3263e;
   --card-food-ink: #ffffff;
-  --card-drink: #0f8f8a;       /* turquoise */
+  --card-drink: #0f8f8a;
   --card-drink-ink: #ffffff;
 
-  --radius: 28px;
-  --gap: clamp(14px, 2.2vw, 28px);
-  --pad: clamp(16px, 2.6vw, 36px);
+  /* Sizes are based on the SHORT side of the screen (vmin), so the layout
+     scales the same way on a 8.7" Galaxy Tab A11 or any other landscape tablet. */
+  --radius: 4.6vmin;
+  --gap: 3.2vmin;
+  --pad: 3.6vmin;
+  --touch: max(56px, 9vmin);       /* minimum comfortable touch target */
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
   --font-ui: "Outfit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; width: 100%; overflow: hidden; }
+html, body {
+  height: 100%; width: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;     /* no pull-to-refresh / bounce */
+}
 body {
   font-family: var(--font-ui);
   background: var(--bg);
   color: var(--ink);
   user-select: none;
   -webkit-user-select: none;
+  -webkit-touch-callout: none;
   touch-action: manipulation;
 }
 button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
+img { -webkit-user-drag: none; }
 :focus-visible { outline: 4px solid var(--card-promo); outline-offset: 3px; }
 
 .app { position: relative; height: 100vh; height: 100dvh; width: 100vw; overflow: hidden; }
@@ -42,7 +59,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   display: flex;
   flex-direction: column;
   gap: var(--gap);
-  padding: var(--pad);
+  padding: max(var(--pad), env(safe-area-inset-top)) max(var(--pad), env(safe-area-inset-right)) max(var(--pad), env(safe-area-inset-bottom)) max(var(--pad), env(safe-area-inset-left));
 }
 
 .topbar {
@@ -50,16 +67,15 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: clamp(64px, 10vh, 96px);
+  height: max(var(--touch), 11vmin);
 }
-.logo { display: flex; align-items: center; gap: 14px; color: var(--primary); }
-.logo svg { height: clamp(44px, 7vh, 68px); width: auto; }
-.logo img { height: clamp(44px, 7vh, 68px); width: auto; }
-.logo-name { font-family: var(--font-display); font-weight: 700; font-size: clamp(22px, 3.2vh, 32px); }
+.logo { display: flex; align-items: center; height: 100%; color: var(--primary); }
+.logo img { height: 100%; width: auto; max-width: 40vw; object-fit: contain; }
+.logo-name { font-family: var(--font-display); font-weight: 700; font-size: 4.4vmin; }
 
-/* Language toggle (segmented, sliding thumb) */
+/* Language toggle */
 .lang {
-  --h: clamp(52px, 7.5vh, 64px);
+  --h: var(--touch);
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -73,7 +89,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   position: relative;
   z-index: 1;
   font-weight: 600;
-  font-size: clamp(17px, 2.5vh, 22px);
+  font-size: max(18px, 3.2vmin);
   letter-spacing: .04em;
   color: var(--ink-soft);
   transition: color .25s;
@@ -88,7 +104,6 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   transition: transform .3s cubic-bezier(.3,.9,.3,1);
 }
 .lang[data-active="en"] .lang-thumb { transform: translateX(100%); }
-.lang--viewer { --h: 56px; }
 
 /* ---------- CARDS ---------- */
 .cards {
@@ -97,6 +112,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--gap);
+  padding-bottom: 1.4vmin;       /* room for the 3D shadow */
 }
 .card {
   position: relative;
@@ -105,39 +121,43 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   justify-content: space-between;
   align-items: flex-start;
   min-height: 0;
-  padding: clamp(20px, 3vw, 40px);
+  min-width: 0;
+  padding: 3.4vmin;
   border-radius: var(--radius);
   text-align: left;
   overflow: hidden;
-  box-shadow: 0 10px 0 rgba(18,38,58,.14);
+  box-shadow: 0 1.4vmin 0 rgba(18,38,58,.16);
   transition: transform .18s cubic-bezier(.3,.9,.3,1), box-shadow .18s;
 }
-.card:active, .card.is-pressed {
-  transform: translateY(8px) scale(.985);
-  box-shadow: 0 2px 0 rgba(18,38,58,.14);
+.card:active {
+  transform: translateY(1.2vmin) scale(.985);
+  box-shadow: 0 .3vmin 0 rgba(18,38,58,.16);
 }
 .card--promo { background: var(--card-promo); color: var(--card-promo-ink); }
 .card--food  { background: var(--card-food);  color: var(--card-food-ink); }
 .card--drink { background: var(--card-drink); color: var(--card-drink-ink); }
 
-.card-icon { width: clamp(90px, 15vw, 190px); height: auto; max-height: 48%; opacity: .95; }
-.card-text { display: flex; flex-direction: column; gap: 10px; }
+.card-icon { height: 40%; width: auto; max-width: 100%; opacity: .95; flex: 0 1 auto; }
+.card-text { display: flex; flex-direction: column; gap: 1.8vmin; min-width: 0; max-width: 100%; }
 .card-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(30px, 4.4vw, 58px);
-  line-height: 1.05;
+  font-size: min(6.2vmin, 4vw);
+  line-height: 1.08;
+  overflow-wrap: normal;
+  hyphens: none;
 }
 .card-sub {
   display: inline-flex;
   align-items: center;
   align-self: flex-start;
-  min-height: 52px;
-  padding: 0 24px;
+  min-height: max(48px, 7.6vmin);
+  padding: 0 3.4vmin;
   border-radius: 999px;
   border: 3px solid currentColor;
   font-weight: 600;
-  font-size: clamp(16px, 2vh, 20px);
+  font-size: max(17px, 3vmin);
+  white-space: nowrap;
 }
 
 /* ---------- VIEWER ---------- */
@@ -159,7 +179,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  height: 88px;
+  height: max(72px, 13vmin);
   padding: 0 var(--pad);
   background: var(--accent, var(--primary));
   color: var(--accent-ink, var(--primary-contrast));
@@ -167,49 +187,81 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .back {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  min-height: 60px;
-  padding: 0 28px 0 18px;
+  gap: 8px;
+  min-height: var(--touch);
+  padding: 0 3.4vmin 0 2.2vmin;
   border-radius: 999px;
   background: var(--primary-contrast);
   color: var(--primary);
   font-weight: 600;
-  font-size: 20px;
+  font-size: max(18px, 3.2vmin);
   transition: transform .15s;
 }
 .back:active { transform: scale(.94); }
-.back svg { width: 28px; height: 28px; }
-.viewer-title { font-family: var(--font-display); font-size: clamp(26px, 3.4vw, 42px); }
+.back svg { width: 4.6vmin; min-width: 26px; height: auto; }
+.viewer-title {
+  font-family: var(--font-display);
+  font-size: min(6.4vmin, 4vw);
+  text-align: center;
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-.viewer-body { flex: 1 1 0; min-height: 0; background: var(--surface); }
-.viewer-body iframe { width: 100%; height: 100%; border: 0; display: block; }
+.viewer-body { position: relative; flex: 1 1 0; min-height: 0; background: #d9e0e5; }
 
-/* HTML fallback menu (used when no PDF is configured) */
-.menu-html {
-  height: 100%;
-  overflow-y: auto;          /* menu content may scroll; dashboard never does */
+/* PDF display */
+.pdf { position: absolute; inset: 0; }
+.pdf-stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.pdf-stage canvas { display: block; background: #fff; box-shadow: 0 4px 24px rgba(18,38,58,.25); max-width: none; }
+.pdf[data-mode="width"] .pdf-stage {
+  display: block;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: var(--pad);
-  columns: 2 360px;
-  column-gap: 48px;
+  overscroll-behavior: contain;
 }
-.menu-item {
-  break-inside: avoid;
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 20px 0;
-  border-bottom: 2px solid rgba(18,38,58,.1);
-  font-size: 22px;
-}
-.menu-item small { display: block; margin-top: 4px; color: var(--ink-soft); font-size: 17px; }
-.menu-item b { font-family: var(--font-display); white-space: nowrap; }
+.pdf[data-mode="width"] .pdf-stage canvas { margin: 0 auto 12px; box-shadow: none; }
 
-/* Portrait / narrow safety net */
+.pdf-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--touch); height: var(--touch);
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: rgba(18,38,58,.82);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,.3);
+  transition: transform .15s, opacity .2s;
+}
+.pdf-nav svg { width: 50%; height: 50%; }
+.pdf-nav:active { transform: translateY(-50%) scale(.92); }
+.pdf-nav:disabled { opacity: .25; pointer-events: none; }
+.pdf-prev { left: 2vmin; }
+.pdf-next { right: 2vmin; }
+.pdf-count {
+  position: absolute; bottom: 2vmin; left: 50%; transform: translateX(-50%);
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: rgba(18,38,58,.82); color: #fff;
+  font-weight: 600; font-size: max(16px, 2.8vmin);
+}
+
+.pdf-status {
+  height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  font-size: max(20px, 3.6vmin); color: var(--ink-soft);
+}
+.pdf-status.is-error { color: var(--card-food); font-weight: 600; }
+.pdf-status small { font-size: max(15px, 2.4vmin); color: var(--ink-soft); font-weight: 400; word-break: break-all; padding: 0 20px; text-align: center; }
+
+/* Portrait safety net */
 @media (max-aspect-ratio: 1/1) {
   .cards { grid-template-columns: 1fr; }
   .card { flex-direction: row; align-items: center; }
-  .card-icon { max-height: 100%; }
+  .card-icon { height: 60%; }
+  .card-title { font-size: 6vmin; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
