@@ -215,6 +215,8 @@ img { -webkit-user-drag: none; }
 .pdf { position: absolute; inset: 0; }
 .pdf-stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
 .pdf-stage canvas { display: block; background: #fff; box-shadow: 0 4px 24px rgba(18,38,58,.25); max-width: none; }
+/* leave a strip under the page for the page counter so it never covers the menu */
+.pdf.has-nav .pdf-stage { bottom: max(52px, 8vmin); }
 .pdf[data-mode="width"] .pdf-stage {
   display: block;
   overflow-y: auto;
@@ -241,7 +243,7 @@ img { -webkit-user-drag: none; }
 .pdf-prev { left: 2vmin; }
 .pdf-next { right: 2vmin; }
 .pdf-count {
-  position: absolute; bottom: 2vmin; left: 50%; transform: translateX(-50%);
+  position: absolute; bottom: calc((max(52px, 8vmin) - 38px) / 2); left: 50%; transform: translateX(-50%);
   padding: 6px 18px;
   border-radius: 999px;
   background: rgba(18,38,58,.82); color: #fff;

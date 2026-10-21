@@ -11,6 +11,7 @@
       back: "Ana sayfa",
       loading: "Menü yükleniyor…",
       error: "Menü açılamadı",
+      soon: "Çok yakında",
       page: "Sayfa",
     },
     en: {
@@ -21,6 +22,7 @@
       back: "Back to home",
       loading: "Loading menu…",
       error: "Menu could not be opened",
+      soon: "Coming soon",
       page: "Page",
     },
   };
@@ -87,8 +89,9 @@
     viewerTitle.textContent = I18N[lang][s.titleKey];
 
     destroyDoc();
-    const url = (CFG.pdf[openSection] || {})[lang];
-    if (!url) { status(`${I18N[lang].error}<small>No PDF set in config.js</small>`, true); return; }
+    const files = CFG.pdf[openSection] || {};
+    const url = files[lang] || files.tr || files.en;   // fall back to the other language
+    if (!url) { status(I18N[lang].soon); return; }
 
     status(I18N[lang].loading);
     try {
@@ -118,7 +121,7 @@
     const mode = CFG.fit === "width" ? "width" : "page";
     const multi = pdfDoc.numPages > 1;
     viewerBody.innerHTML = `
-      <div class="pdf" data-mode="${mode}">
+      <div class="pdf${mode === "page" && multi ? " has-nav" : ""}" data-mode="${mode}">
         <div class="pdf-stage" id="pdfStage"></div>
         ${mode === "page" && multi ? `
           <button class="pdf-nav pdf-prev" type="button" aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>

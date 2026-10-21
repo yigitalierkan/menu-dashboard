@@ -12,8 +12,9 @@ window.MENU_CONFIG = {
   /* PDF file for each section and language (paths inside the menus folder).
      Use lowercase names, no spaces, no Turkish characters.               */
   pdf: {
-    promo: { tr: "menus/promo-tr.pdf",  en: "menus/promo-en.pdf"  },
-    food:  { tr: "menus/food-tr.pdf",   en: "menus/food-en.pdf"   },
-    drink: { tr: "menus/drinks-tr.pdf", en: "menus/drinks-en.pdf" }
+    /* "" = no PDF yet. A missing language falls back to the other one. */
+    promo: { tr: "",                    en: "" },
+    food:  { tr: "menus/foods-tr.pdf",  en: "" },
+    drink: { tr: "menus/drinks-tr.pdf", en: "" }
   }
 };
