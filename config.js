@@ -9,6 +9,10 @@ window.MENU_CONFIG = {
      "width" = page fills the screen width, scroll down for the rest      */
   fit: "page",
 
+  /* Languages shown to guests. Only Turkish for now.
+     To switch English back on, change this to ["tr", "en"]. */
+  languages: ["tr"],
+
   /* PDF file for each section and language (paths inside the menus folder).
      Use lowercase names, no spaces, no Turkish characters.               */
   pdf: {

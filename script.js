@@ -43,6 +43,11 @@
   try { lang = localStorage.getItem("menu-lang") || "tr"; } catch (_) {}
   if (!I18N[lang]) lang = "tr";
 
+  // Languages offered to guests (see config.js). With one language the TR/EN switch is hidden.
+  const LANGS = (CFG.languages && CFG.languages.length ? CFG.languages : ["tr", "en"]).filter((l) => I18N[l]);
+  if (!LANGS.includes(lang)) lang = LANGS[0] || "tr";
+  document.documentElement.classList.toggle("single-lang", LANGS.length < 2);
+
   let openSection = null;
   let pdfDoc = null;          // current PDF.js document
   let pageNo = 1;             // current page (fit = "page")

@@ -1,6 +1,6 @@
 /* Offline support: everything is cached on the first online visit,
    then the app runs with no internet. Bump VERSION to force a full refresh. */
-const VERSION = "menu-v3";
+const VERSION = "menu-v4";
 
 const CORE = [
   "./", "index.html", "styles.css", "script.js", "config.js",

@@ -276,3 +276,6 @@ img { -webkit-user-drag: none; }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* One language only: hide the TR/EN switch (it keeps its space so titles stay centred) */
+.single-lang .lang { visibility: hidden; pointer-events: none; }
